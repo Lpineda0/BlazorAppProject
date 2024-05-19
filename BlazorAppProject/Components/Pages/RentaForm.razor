@@ -1,0 +1,71 @@
+﻿@page "/renta/nueva"
+@page "/renta/editar/{Id:int}"
+@rendermode InteractiveServer
+@inject NavigationManager _navigator;
+@inject IRepositorioRenta _repositorio;
+<h2>@_mensaje Renta</h2>
+<EditForm Model="_renta" FormName="frmRenta" OnValidSubmit="Guardar">
+	<DataAnnotationsValidator />
+	<div class="row mb-3">
+		<label for="txtNombre" class="col-2 col-form-label">Nombre</label>
+		<div class="col-10">
+			<InputSelect class="form-select" @bind-Value="_renta.PersonaId">
+				<option value="0" enabled="enabled">Seleccione una persona...</option>
+				@foreach (Persona persona in _personas)
+				{
+					<option value="@persona.Id">@persona.Nombre</option>
+				}
+			</InputSelect>
+			<ValidationMessage For="()=>_renta.Nombre" />
+		</div>
+	</div>
+	<div class="row mb-3">
+		<label for="txtFecha" class="col-2 col-form-label">Fecha</label>
+		<div class="col-10">
+			<input type="date" id="txtFecha" class="form-control" @bind="_renta.Fecha" />
+			<ValidationMessage For="()=>_renta.Fecha" />
+		</div>
+	</div>
+	<button type="submit" class="btn btn-primary">Guardar</button>
+	<button class="btn btn-danger ms-3" @onclick="Cancelar" @onclick:preventDefault>Cancelar</button>
+</EditForm>
+
+@code {
+	[Parameter]
+	public int Id { get; set; }
+	private string _mensaje = "";
+	private Renta? _renta = new();
+	private List<Renta> _rentas = new();
+	private List<Persona> _personas = new();
+
+	protected override async Task OnInitializedAsync()
+	{
+		_personas = await _repositorio.GetPersona();
+		if (Id > 0)
+		{
+			_renta = await _repositorio.Get(Id);
+			_mensaje = "Modificar";
+
+		}
+		else
+		{
+			_mensaje = "Nueva";
+		}
+	}
+	private async void Guardar()
+	{
+		if (Id > 0)
+		{
+			await _repositorio.Update(Id, _renta!);
+		}
+		else
+		{
+			await _repositorio.Add(_renta!);
+		}
+		Cancelar();
+	}
+	private void Cancelar()
+	{
+		_navigator.NavigateTo("/renta");
+	}
+}

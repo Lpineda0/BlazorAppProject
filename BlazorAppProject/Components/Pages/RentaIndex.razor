@@ -1,0 +1,71 @@
+﻿@page "/renta"
+@rendermode InteractiveServer
+@inject NavigationManager _navigator;
+@inject IRepositorioRenta _repositorio;
+
+<h3>RentaIndex</h3>
+<a class="btn btn-success" href="renta/nueva"> Agregar renta</a>
+@if (_renta == null)
+{
+	<div class="spinner-border" role="status">
+		<span class="visually-hidden"> Cargando</span>
+	</div>
+}
+else if (_renta.Count == 0)
+{
+	<h3>No existen personas registradas</h3>
+}
+else
+{
+	<table class="table table-striped">
+		<thread>
+			<tr>
+				<th>Nombre</th>
+				<th>Fecha</th>
+				<th>Acciones</th>
+			</tr>
+		</thread>
+		<tbody>
+			@foreach (Renta renta in _renta)
+			{
+				<tr>
+					<td>@renta.Nombre</td>
+					<td>@renta.Fecha</td>
+					<td>
+						<button class="btn btn-sm" title="Modificar" @onclick="()=>Modificar(renta.Id)">
+							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
+								<path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.5.5 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11z" />
+							</svg>
+						</button>
+						<button class="btn btn-sm" title="Eliminar" @onclick="()=>Eliminar(renta)">
+							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
+								<path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0" />
+							</svg>
+						</button>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+}
+
+@code {
+	private List<Renta>? _renta;
+
+	protected override async Task OnInitializedAsync()
+	{
+		_renta = await _repositorio.GetAll();
+	}
+
+	private async void Eliminar(Renta renta)
+	{
+		await _repositorio.Delete(renta.Id);
+		_renta!.Remove(renta);
+		StateHasChanged();
+	}
+
+	private void Modificar(int id)
+	{
+		_navigator.NavigateTo($"/renta/editar/{id}");
+	}
+}
