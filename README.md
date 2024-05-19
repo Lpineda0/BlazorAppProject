@@ -1,0 +1,1 @@
+Por alguna extraña razón mi base de datos de persona se rehusa a guardar, por lo que en futuras actualizaciones se espera corregir el problema. Por otro lado, las demás fuciónes y el código están funcionales.
