@@ -20,6 +20,7 @@ else
 	<table class="table table-striped">
 		<thread>
 			<tr>
+				<th>Id</th>
 				<th>Equipo</th>
 				<th>Descripción</th>
 				<th>Acciones</th>
@@ -29,6 +30,7 @@ else
 			@foreach (Equipo equipo in _equipo)
 			{
 				<tr>
+					<td>@equipo.Id</td>
 					<td>@equipo.Nombre</td>
 					<td>@equipo.Descripcion</td>
 					<td>

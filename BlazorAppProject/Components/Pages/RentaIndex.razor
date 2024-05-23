@@ -2,6 +2,7 @@
 @rendermode InteractiveServer
 @inject NavigationManager _navigator;
 @inject IRepositorioRenta _repositorio;
+@inject IRepositorioPersonas _repositorioPersonas;
 
 <h3>RentaIndex</h3>
 <a class="btn btn-success" href="renta/nueva"> Agregar renta</a>
@@ -29,7 +30,7 @@ else
 			@foreach (Renta renta in _renta)
 			{
 				<tr>
-					<td>@renta.Nombre</td>
+					<td>@renta.Persona.Nombre</td>
 					<td>@renta.Fecha</td>
 					<td>
 						<button class="btn btn-sm" title="Modificar" @onclick="()=>Modificar(renta.Id)">
@@ -67,5 +68,9 @@ else
 	private void Modificar(int id)
 	{
 		_navigator.NavigateTo($"/renta/editar/{id}");
+	}
+	private async Task<Persona?> GetName(int id)
+	{
+		return await _repositorioPersonas.Get(id);
 	}
 }

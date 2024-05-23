@@ -50,7 +50,7 @@ namespace BlazorAppProject.Repositorio
 			if (equipoactual != null)
 			{
 				equipoactual.Nombre = equipo.Nombre;
-				equipoactual.EquipoRenta = equipo.Descripcion;
+				equipoactual.Equipo.Descripcion = equipo.Descripcion;
 				await _context.SaveChangesAsync();
 			}
 

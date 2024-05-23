@@ -11,9 +11,9 @@ namespace BlazorAppProject.Modelo
 		[Required(ErrorMessage = "El telefono es requerido")]
 		[StringLength(100, ErrorMessage = "Maximo 10 caracteres")]
 		public string? Telefono { get; set; }
-		[Required(ErrorMessage = "El equipo a rentar es requerido")]
-        public string? EquipoRenta { get; set; }
-
+		
+        
+        [Required(ErrorMessage = "El equipo a rentar es requerido")]
         public int EquipoId { get; set; }
         public virtual Equipo? Equipo { get; set; }
 

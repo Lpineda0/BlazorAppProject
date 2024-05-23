@@ -50,7 +50,7 @@ namespace BlazorAppProject.Repositorio
 			if (personaactual != null)
 			{
 				personaactual.Nombre = persona.Nombre;
-				personaactual.EquipoRenta = persona.EquipoRenta;
+				personaactual.EquipoId = persona.EquipoId;
 				personaactual.Telefono = persona.Telefono;
 				await _context.SaveChangesAsync();
 			}

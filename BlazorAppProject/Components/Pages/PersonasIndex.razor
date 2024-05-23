@@ -2,6 +2,7 @@
 @rendermode InteractiveServer
 @inject NavigationManager _navigator;
 @inject IRepositorioPersonas _repositorio;
+@inject IRepositorioEquipo _repositorioEquipo;
 
 <h3>PersonasIndex</h3>
 <a class="btn btn-success" href="personas/nueva"> Agregar persona</a>
@@ -32,7 +33,7 @@ else
 				<tr>
 					<td>@persona.Nombre</td>
 					<td>@persona.Telefono</td>
-					<td>@persona.EquipoRenta</td>
+					<td>@persona.EquipoId</td>
 					<td>
 						<button class="btn btn-sm" title="Modificar" @onclick="()=>Modificar(persona.Id)">
 						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
@@ -53,6 +54,7 @@ else
 
 @code {
 	private List<Persona>? _personas;
+	
 
 	protected override async Task OnInitializedAsync()
 	{

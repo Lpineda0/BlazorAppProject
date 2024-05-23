@@ -11,6 +11,7 @@ namespace BlazorAppProject.Repositorio
 		Task Delete(int id);
 
 		Task<List<Equipo>> GetEquipo();
-		Task<List<Persona>> GetPersona();
+		Task<List<Persona>> GetPersonas();
+		Task<Persona> GetPersona(int id);
 	}
 }

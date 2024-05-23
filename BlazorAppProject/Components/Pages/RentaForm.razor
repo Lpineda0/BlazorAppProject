@@ -16,7 +16,7 @@
 					<option value="@persona.Id">@persona.Nombre</option>
 				}
 			</InputSelect>
-			<ValidationMessage For="()=>_renta.Nombre" />
+			<ValidationMessage For="()=>_renta.PersonaId" />
 		</div>
 	</div>
 	<div class="row mb-3">
@@ -40,7 +40,7 @@
 
 	protected override async Task OnInitializedAsync()
 	{
-		_personas = await _repositorio.GetPersona();
+		_personas = await _repositorio.GetPersonas();
 		if (Id > 0)
 		{
 			_renta = await _repositorio.Get(Id);
@@ -54,6 +54,8 @@
 	}
 	private async void Guardar()
 	{
+		Persona persona = await _repositorio.GetPersona(_renta.PersonaId);
+		_renta.Persona = persona;
 		if (Id > 0)
 		{
 			await _repositorio.Update(Id, _renta!);

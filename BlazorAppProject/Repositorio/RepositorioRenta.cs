@@ -39,11 +39,15 @@ namespace BlazorAppProject.Repositorio
 			return await _context.Rentas.ToListAsync();
 		}
         
-		public async Task<List<Persona>> GetPersona()
+		public async Task<List<Persona>> GetPersonas()
         {
             return await _context.Personas.ToListAsync();
         }
-        
+		public async Task<Persona?> GetPersona(int id)
+		{
+			return await _context.Personas.FindAsync(id);
+		}
+
 		public async Task<List<Equipo>> GetEquipo()
         {
             return await _context.Equipos.ToListAsync();
@@ -53,8 +57,6 @@ namespace BlazorAppProject.Repositorio
 			var rentaactual = await _context.Rentas.FindAsync(id);
 			if (rentaactual != null)
 			{
-				rentaactual.Nombre = renta.Nombre;
-				rentaactual.Equipo = renta.Equipo;
                 rentaactual.Fecha = renta.Fecha;
                 await _context.SaveChangesAsync();
 			}
